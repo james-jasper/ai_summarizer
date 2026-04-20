@@ -2,15 +2,15 @@ services:
   postgres:
     image: postgres:16
     environment:
-      POSTGRES_USER: swiggy
-      POSTGRES_PASSWORD: swiggy
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
       POSTGRES_DB: summarizer
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U swiggy -d summarizer"]
+      test: ["CMD-SHELL", "pg_isready -U test -d summarizer"]
       interval: 5s
       retries: 5
     logging:
@@ -22,8 +22,8 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     environment:
-      RABBITMQ_DEFAULT_USER: swiggy
-      RABBITMQ_DEFAULT_PASS: swiggy
+      RABBITMQ_DEFAULT_USER: test
+      RABBITMQ_DEFAULT_PASS: test
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -69,8 +69,8 @@ services:
       - "8000:8000"
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://swiggy:swiggy@postgres:5432/summarizer
-      RABBITMQ_URL: amqp://swiggy:swiggy@rabbitmq:5672/
+      DATABASE_URL: postgresql://test:test@postgres:5432/summarizer
+      RABBITMQ_URL: amqp://test:test@rabbitmq:5672/
       REDIS_URL: redis://redis:6379
       OLLAMA_BASE_URL: http://ollama:11434
     volumes:
@@ -93,8 +93,8 @@ services:
     command: python -m app.worker
     env_file: .env
     environment:
-      DATABASE_URL: postgresql://swiggy:swiggy@postgres:5432/summarizer
-      RABBITMQ_URL: amqp://swiggy:swiggy@rabbitmq:5672/
+      DATABASE_URL: postgresql://test:test@postgres:5432/summarizer
+      RABBITMQ_URL: amqp://test:test@rabbitmq:5672/
       REDIS_URL: redis://redis:6379
       OLLAMA_BASE_URL: http://ollama:11434
     volumes:
